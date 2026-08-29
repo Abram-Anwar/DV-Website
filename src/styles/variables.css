@@ -1,0 +1,81 @@
+:root {
+  /* =========================
+     Colors
+  ========================= */
+
+  --color-surface: #f7f9fb;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f2f4f6;
+  --color-surface-container: #eceef0;
+  --color-surface-container-high: #e6e8ea;
+  --color-surface-container-highest: #e0e3e5;
+
+  --color-on-surface: #191c1e;
+  --color-on-surface-variant: #44474e;
+
+  --color-primary: #031635;
+  --color-primary-fixed: #d9e2ff;
+  --color-primary-container: #1a2b4b;
+  --color-on-primary: #ffffff;
+  --color-tertiary-fixed-dim: #00a774;
+  --color-on-tertiary-fixed: #ffffff;
+
+  --color-secondary: #0051d5;
+  --color-secondary-container: #316bf3;
+  --color-on-secondary: #ffffff;
+
+  --color-tertiary: #001c10;
+  --color-tertiary-container: #003320;
+  --color-on-tertiary-container: #00a774;
+
+  --color-error: #ba1a1a;
+  --color-error-container: #ffdad6;
+  --color-on-error: #ffffff;
+
+  --color-outline: #75777f;
+  --color-outline-variant: #c5c6cf;
+
+  --color-background: #f7f9fb;
+
+  /* =========================
+     Typography
+  ========================= */
+
+  --font-primary: "Cairo", "Roboto", sans-serif;
+
+  --text-headline-lg: 32px;
+  --text-headline-md: 24px;
+  --text-headline-sm: 20px;
+  --text-body-lg: 18px;
+  --text-body-md: 16px;
+  --text-label-md: 14px;
+  --text-caption: 12px;
+
+  /* =========================
+     Border Radius
+  ========================= */
+
+  --radius-sm: 0.25rem;
+  --radius-default: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* =========================
+     Layout
+  ========================= */
+
+  --container-max-width: 1280px;
+  --gutter: 1.5rem;
+
+  --spacing-mobile: 1rem;
+  --spacing-stack: 2rem;
+  --spacing-section: 4rem;
+
+  /* =========================
+     Effects
+  ========================= */
+
+  --shadow-hover: 0 8px 24px rgba(26, 43, 75, 0.05);
+}
