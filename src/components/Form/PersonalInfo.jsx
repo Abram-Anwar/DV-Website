@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { IoPerson, IoClose } from "react-icons/io5";
 
-import "./PersonalInfo.css";
+import "./FormSection.css";
 
 const PersonalInfo = ({ data, setFormData, errors, setErrors }) => {
   const [imagePreview, setImagePreview] = useState(null);
@@ -19,9 +19,13 @@ const PersonalInfo = ({ data, setFormData, errors, setErrors }) => {
     }));
 
     setErrors((prev) => {
-      const newErrors = { ...prev };
-      delete newErrors[name];
-      return newErrors;
+      const newApplicantErrors = { ...prev.applicant };
+      delete newApplicantErrors[name];
+
+      return {
+        ...prev,
+        applicant: newApplicantErrors,
+      };
     });
   };
 
@@ -39,9 +43,13 @@ const PersonalInfo = ({ data, setFormData, errors, setErrors }) => {
     }));
 
     setErrors((prev) => {
-      const newErrors = { ...prev };
-      delete newErrors.image;
-      return newErrors;
+      const newApplicantErrors = { ...prev.applicant };
+      delete newApplicantErrors.image;
+
+      return {
+        ...prev,
+        applicant: newApplicantErrors,
+      };
     });
   };
 
@@ -174,11 +182,11 @@ const PersonalInfo = ({ data, setFormData, errors, setErrors }) => {
             onChange={handleChange}
           >
             <option value="">اختر المؤهل</option>
-            <option value="diploma">دبلوم</option>
-            <option value="highschool">ثانوية عامة</option>
-            <option value="bachelor">بكالوريوس</option>
-            <option value="master">ماجستير</option>
-            <option value="phd">دكتوراه</option>
+            <option value="دبلوم">دبلوم</option>
+            <option value="ثانوي عامة">ثانوية عامة</option>
+            <option value="بكالوريوس">بكالوريوس</option>
+            <option value="ماجستير">ماجستير</option>
+            <option value="دكتوراه">دكتوراه</option>
           </select>
           {errors.qualification && (
             <span className="error-message">{errors.qualification}</span>

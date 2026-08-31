@@ -1,5 +1,3 @@
-// Form.jsx
-
 import PersonalInfo from "../components/Form/PersonalInfo";
 import SpouseInfo from "../components/Form/SpouseInfo";
 import ChildrenInfo from "../components/Form/ChildrenInfo";
@@ -8,6 +6,7 @@ import { useState } from "react";
 import ProgressBar from "../components/ProgressBar/ProgressBar";
 import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
+import Review from "../components/Review/Review";
 import "./Form.css";
 
 const Form = () => {
@@ -15,7 +14,11 @@ const Form = () => {
   const { status, hasChildren } = state;
 
   const [currentStep, setCurrentStep] = useState(0);
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({
+    applicant: {},
+    spouse: {},
+    children: {},
+  });
 
   const [formData, setFormData] = useState({
     applicant: {
@@ -38,10 +41,18 @@ const Form = () => {
       image: null,
     },
 
-    children: [],
+    children: [
+      {
+        fullName: "",
+        gender: "",
+        dateOfBirth: "",
+        placeOfBirth: "",
+        image: null,
+      },
+    ],
   });
 
-  const validate = (data) => {
+  const validate = (data, section) => {
     const newErrors = {};
 
     if (!data.fullName.trim()) {
@@ -62,23 +73,28 @@ const Form = () => {
       newErrors.phone = "يرجى إدخال رقم هاتف مصري صحيح";
     }
 
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
-      newErrors.email = "يرجى إدخال بريد إلكتروني صحيح";
-    }
+    if (section === "applicant") {
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+        newErrors.email = "يرجى إدخال بريد إلكتروني صحيح";
+      }
 
-    if (!data.qualification) {
-      newErrors.qualification = "يرجى اختيار المؤهل";
-    }
-
-    if (!data.address.trim()) {
-      newErrors.address = "العنوان مطلوب";
+      if (!data.address.trim()) {
+        newErrors.address = "العنوان مطلوب";
+      }
     }
 
     if (!data.image) {
       newErrors.image = "يرجى اختيار صورة";
     }
 
-    setErrors(newErrors);
+    if (!data.qualification) {
+      newErrors.qualification = "يرجى اختيار المؤهل";
+    }
+
+    setErrors((prev) => ({
+      ...prev,
+      [section]: newErrors,
+    }));
 
     return Object.keys(newErrors).length === 0;
   };
@@ -90,7 +106,7 @@ const Form = () => {
         <PersonalInfo
           data={formData.applicant}
           setFormData={setFormData}
-          errors={errors}
+          errors={errors.applicant}
           setErrors={setErrors}
         />
       ),
@@ -101,7 +117,12 @@ const Form = () => {
           {
             title: "بيانات الزوج/الزوجة",
             component: (
-              <SpouseInfo data={formData.spouse} setFormData={setFormData} />
+              <SpouseInfo
+                data={formData.spouse}
+                setFormData={setFormData}
+                errors={errors.spouse}
+                setErrors={setErrors}
+              />
             ),
           },
         ]
@@ -123,16 +144,22 @@ const Form = () => {
 
     {
       title: "المراجعة",
-      component: <div>Review</div>,
+      component: <Review />,
     },
   ];
 
   const handleNext = () => {
-    if (currentStep === 0) {
-      const isValid = validate(formData.applicant);
+    // if (currentStep === 0) {
+    //   const isValid = validate(formData.applicant, "applicant");
 
-      if (!isValid) return;
-    }
+    //   if (!isValid) return;
+    // }
+
+    // if (currentStep === 1 && status === "married") {
+    //   const isValid = validate(formData.spouse, "spouse");
+
+    //   if (!isValid) return;
+    // }
 
     if (currentStep < steps.length - 1) {
       setCurrentStep((prev) => prev + 1);
@@ -144,6 +171,8 @@ const Form = () => {
       setCurrentStep((prev) => prev - 1);
     }
   };
+
+  // console.log("FORM DATA:", formData);
 
   return (
     <>
