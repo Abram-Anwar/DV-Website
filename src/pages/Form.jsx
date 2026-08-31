@@ -1,106 +1,110 @@
 import PersonalInfo from "../components/Form/PersonalInfo";
 import SpouseInfo from "../components/Form/SpouseInfo";
 import ChildrenInfo from "../components/Form/ChildrenInfo";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import ProgressBar from "../components/ProgressBar/ProgressBar";
 import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
 import Review from "../components/Review/Review";
+import {
+  validateApplicant,
+  validateSpouse,
+  validateChildren,
+} from "../Hooks/useFormValidation";
 import "./Form.css";
 
 const Form = () => {
   const { state } = useLocation();
+
+  if (!state) {
+    return <Navigate to={"/apply"} replace />;
+  }
+
   const { status, hasChildren } = state;
 
   const [currentStep, setCurrentStep] = useState(0);
+
   const [errors, setErrors] = useState({
     applicant: {},
     spouse: {},
-    children: {},
+    children: [],
   });
+
+  // const [formData, setFormData] = useState({
+  //   applicant: {
+  //     fullName: "",
+  //     email: "",
+  //     phone: "",
+  //     dateOfBirth: "",
+  //     placeOfBirth: "",
+  //     qualification: "",
+  //     address: "",
+  //     image: null,
+  //   },
+
+  //   spouse: {
+  //     fullName: "",
+  //     dateOfBirth: "",
+  //     placeOfBirth: "",
+  //     qualification: "",
+  //     phone: "",
+  //     image: null,
+  //   },
+
+  //   children: [
+  //     {
+  //       fullName: "",
+  //       gender: "",
+  //       dateOfBirth: "",
+  //       placeOfBirth: "",
+  //       image: null,
+  //     },
+  //   ],
+  // });
 
   const [formData, setFormData] = useState({
-    applicant: {
-      fullName: "",
-      email: "",
-      phone: "",
-      dateOfBirth: "",
-      placeOfBirth: "",
-      qualification: "",
-      address: "",
-      image: null,
+  applicant: {
+    fullName: "أبرام أنور حسن إبراهيم",
+    email: "abram@example.com",
+    phone: "01012345678",
+    dateOfBirth: "2004-05-15",
+    placeOfBirth: "بني سويف",
+    qualification: "بكالوريوس",
+    address: "بني سويف، مصر",
+    image: "",
+  },
+
+  spouse: {
+    fullName: "سارة محمد علي محمود",
+    dateOfBirth: "2005-08-20",
+    placeOfBirth: "القاهرة",
+    qualification: "بكالوريوس",
+    phone: "01198765432",
+    image: "",
+  },
+
+  children: [
+    {
+      fullName: "عمر أبرام أنور حسن",
+      gender: "ذكر",
+      dateOfBirth: "2010-03-12",
+      placeOfBirth: "بني سويف",
+      image: "",
     },
-
-    spouse: {
-      fullName: "",
-      dateOfBirth: "",
-      placeOfBirth: "",
-      qualification: "",
-      phone: "",
-      image: null,
+    {
+      fullName: "مريم أبرام أنور حسن",
+      gender: "أنثى",
+      dateOfBirth: "2014-11-25",
+      placeOfBirth: "بني سويف",
+      image: "",
     },
-
-    children: [
-      {
-        fullName: "",
-        gender: "",
-        dateOfBirth: "",
-        placeOfBirth: "",
-        image: null,
-      },
-    ],
-  });
-
-  const validate = (data, section) => {
-    const newErrors = {};
-
-    if (!data.fullName.trim()) {
-      newErrors.fullName = "الاسم مطلوب";
-    } else if (data.fullName.trim().split(/\s+/).length < 4) {
-      newErrors.fullName = "يرجى إدخال الاسم الرباعي";
-    }
-
-    if (!data.dateOfBirth) {
-      newErrors.dateOfBirth = "تاريخ الميلاد مطلوب";
-    }
-
-    if (!data.placeOfBirth.trim()) {
-      newErrors.placeOfBirth = "مدينة / محافظة الميلاد مطلوبة";
-    }
-
-    if (!/^01\d{9}$/.test(data.phone)) {
-      newErrors.phone = "يرجى إدخال رقم هاتف مصري صحيح";
-    }
-
-    if (section === "applicant") {
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
-        newErrors.email = "يرجى إدخال بريد إلكتروني صحيح";
-      }
-
-      if (!data.address.trim()) {
-        newErrors.address = "العنوان مطلوب";
-      }
-    }
-
-    if (!data.image) {
-      newErrors.image = "يرجى اختيار صورة";
-    }
-
-    if (!data.qualification) {
-      newErrors.qualification = "يرجى اختيار المؤهل";
-    }
-
-    setErrors((prev) => ({
-      ...prev,
-      [section]: newErrors,
-    }));
-
-    return Object.keys(newErrors).length === 0;
-  };
-
+  ],
+});
+  
   const steps = [
     {
+      id: "applicant",
       title: "البيانات الشخصية",
       component: (
         <PersonalInfo
@@ -115,6 +119,7 @@ const Form = () => {
     ...(status === "married"
       ? [
           {
+            id: "spouse",
             title: "بيانات الزوج/الزوجة",
             component: (
               <SpouseInfo
@@ -131,11 +136,14 @@ const Form = () => {
     ...(status === "married" && hasChildren === "yes"
       ? [
           {
-            title: "بيانات الأطفال",
+            id: "children",
+            title: "بيانات الأبناء",
             component: (
               <ChildrenInfo
                 data={formData.children}
                 setFormData={setFormData}
+                errors={errors.children}
+                setErrors={setErrors}
               />
             ),
           },
@@ -143,23 +151,64 @@ const Form = () => {
       : []),
 
     {
+      id: "review",
       title: "المراجعة",
-      component: <Review />,
+      component: (
+        <Review
+          formData={formData}
+          status={status}
+          hasChildren={hasChildren}
+          setCurrentStep={setCurrentStep}
+        />
+      ),
     },
   ];
 
+  const stepValidators = {
+    applicant: () => {
+      const newErrors = validateApplicant(formData.applicant);
+
+      setErrors((prev) => ({
+        ...prev,
+        applicant: newErrors,
+      }));
+
+      return Object.keys(newErrors).length === 0;
+    },
+
+    spouse: () => {
+      const newErrors = validateSpouse(formData.spouse);
+
+      setErrors((prev) => ({
+        ...prev,
+        spouse: newErrors,
+      }));
+
+      return Object.keys(newErrors).length === 0;
+    },
+
+    children: () => {
+      const newErrors = validateChildren(formData.children);
+
+      setErrors((prev) => ({
+        ...prev,
+        children: newErrors,
+      }));
+
+      return newErrors.every(
+        (childErrors) => Object.keys(childErrors).length === 0,
+      );
+    },
+  };
+
   const handleNext = () => {
-    // if (currentStep === 0) {
-    //   const isValid = validate(formData.applicant, "applicant");
+    const currentStepId = steps[currentStep].id;
 
-    //   if (!isValid) return;
-    // }
+    const validator = stepValidators[currentStepId];
 
-    // if (currentStep === 1 && status === "married") {
-    //   const isValid = validate(formData.spouse, "spouse");
-
-    //   if (!isValid) return;
-    // }
+    if (validator && !validator()) {
+      return;
+    }
 
     if (currentStep < steps.length - 1) {
       setCurrentStep((prev) => prev + 1);
