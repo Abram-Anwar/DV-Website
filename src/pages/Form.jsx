@@ -1,27 +1,15 @@
-import PersonalInfo from "../components/Form/PersonalInfo";
-import SpouseInfo from "../components/Form/SpouseInfo";
-import ChildrenInfo from "../components/Form/ChildrenInfo";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
 import ProgressBar from "../components/ProgressBar/ProgressBar";
 import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
-import Review from "../components/Review/Review";
-import {
-  validateApplicant,
-  validateSpouse,
-  validateChildren,
-} from "../Hooks/useFormValidation";
+import useFormValidation from "../Hooks/useFormValidation";
+import getInitialFormData from "../utils/initialFormData";
+import getFormSteps from "../utils/formSteps";
+import { Navigate, useLocation } from "react-router-dom";
+import { useState } from "react";
 import "./Form.css";
 
 const Form = () => {
   const { state } = useLocation();
-
-  if (!state) {
-    return <Navigate to={"/apply"} replace />;
-  }
-
-  const { status, hasChildren } = state;
 
   const [currentStep, setCurrentStep] = useState(0);
 
@@ -31,182 +19,30 @@ const Form = () => {
     children: [],
   });
 
-  // const [formData, setFormData] = useState({
-  //   applicant: {
-  //     fullName: "",
-  //     email: "",
-  //     phone: "",
-  //     dateOfBirth: "",
-  //     placeOfBirth: "",
-  //     qualification: "",
-  //     address: "",
-  //     image: null,
-  //   },
+  const [formData, setFormData] = useState(() => getInitialFormData());
 
-  //   spouse: {
-  //     fullName: "",
-  //     dateOfBirth: "",
-  //     placeOfBirth: "",
-  //     qualification: "",
-  //     phone: "",
-  //     image: null,
-  //   },
+  const { validateStep } = useFormValidation(formData, setErrors);
 
-  //   children: [
-  //     {
-  //       fullName: "",
-  //       gender: "",
-  //       dateOfBirth: "",
-  //       placeOfBirth: "",
-  //       image: null,
-  //     },
-  //   ],
-  // });
+  if (!state) {
+    return <Navigate to={"/apply"} replace />;
+  }
 
-  const [formData, setFormData] = useState({
-  applicant: {
-    fullName: "أبرام أنور حسن إبراهيم",
-    email: "abram@example.com",
-    phone: "01012345678",
-    dateOfBirth: "2004-05-15",
-    placeOfBirth: "بني سويف",
-    qualification: "بكالوريوس",
-    address: "بني سويف، مصر",
-    image: "",
-  },
+  const { status, hasChildren } = state;
 
-  spouse: {
-    fullName: "سارة محمد علي محمود",
-    dateOfBirth: "2005-08-20",
-    placeOfBirth: "القاهرة",
-    qualification: "بكالوريوس",
-    phone: "01198765432",
-    image: "",
-  },
-
-  children: [
-    {
-      fullName: "عمر أبرام أنور حسن",
-      gender: "ذكر",
-      dateOfBirth: "2010-03-12",
-      placeOfBirth: "بني سويف",
-      image: "",
-    },
-    {
-      fullName: "مريم أبرام أنور حسن",
-      gender: "أنثى",
-      dateOfBirth: "2014-11-25",
-      placeOfBirth: "بني سويف",
-      image: "",
-    },
-  ],
-});
-  
-  const steps = [
-    {
-      id: "applicant",
-      title: "البيانات الشخصية",
-      component: (
-        <PersonalInfo
-          data={formData.applicant}
-          setFormData={setFormData}
-          errors={errors.applicant}
-          setErrors={setErrors}
-        />
-      ),
-    },
-
-    ...(status === "married"
-      ? [
-          {
-            id: "spouse",
-            title: "بيانات الزوج/الزوجة",
-            component: (
-              <SpouseInfo
-                data={formData.spouse}
-                setFormData={setFormData}
-                errors={errors.spouse}
-                setErrors={setErrors}
-              />
-            ),
-          },
-        ]
-      : []),
-
-    ...(status === "married" && hasChildren === "yes"
-      ? [
-          {
-            id: "children",
-            title: "بيانات الأبناء",
-            component: (
-              <ChildrenInfo
-                data={formData.children}
-                setFormData={setFormData}
-                errors={errors.children}
-                setErrors={setErrors}
-              />
-            ),
-          },
-        ]
-      : []),
-
-    {
-      id: "review",
-      title: "المراجعة",
-      component: (
-        <Review
-          formData={formData}
-          status={status}
-          hasChildren={hasChildren}
-          setCurrentStep={setCurrentStep}
-        />
-      ),
-    },
-  ];
-
-  const stepValidators = {
-    applicant: () => {
-      const newErrors = validateApplicant(formData.applicant);
-
-      setErrors((prev) => ({
-        ...prev,
-        applicant: newErrors,
-      }));
-
-      return Object.keys(newErrors).length === 0;
-    },
-
-    spouse: () => {
-      const newErrors = validateSpouse(formData.spouse);
-
-      setErrors((prev) => ({
-        ...prev,
-        spouse: newErrors,
-      }));
-
-      return Object.keys(newErrors).length === 0;
-    },
-
-    children: () => {
-      const newErrors = validateChildren(formData.children);
-
-      setErrors((prev) => ({
-        ...prev,
-        children: newErrors,
-      }));
-
-      return newErrors.every(
-        (childErrors) => Object.keys(childErrors).length === 0,
-      );
-    },
-  };
+  const steps = getFormSteps({
+    status,
+    hasChildren,
+    formData,
+    errors,
+    setFormData,
+    setErrors,
+    setCurrentStep,
+  });
 
   const handleNext = () => {
     const currentStepId = steps[currentStep].id;
 
-    const validator = stepValidators[currentStepId];
-
-    if (validator && !validator()) {
+    if (!validateStep(currentStepId)) {
       return;
     }
 
@@ -220,8 +56,6 @@ const Form = () => {
       setCurrentStep((prev) => prev - 1);
     }
   };
-
-  // console.log("FORM DATA:", formData);
 
   return (
     <>

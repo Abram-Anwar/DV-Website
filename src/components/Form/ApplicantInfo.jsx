@@ -3,7 +3,7 @@ import { IoPerson, IoClose } from "react-icons/io5";
 
 import "./FormSection.css";
 
-const PersonalInfo = ({ data, setFormData, errors, setErrors }) => {
+const ApplicantInfo = ({ data, setFormData, errors, setErrors }) => {
   const [imagePreview, setImagePreview] = useState(null);
   const fileInputRef = useRef(null);
 
@@ -62,6 +62,16 @@ const PersonalInfo = ({ data, setFormData, errors, setErrors }) => {
       },
     }));
 
+    setErrors((prev) => {
+      const newApplicantErrors = { ...prev.applicant };
+      delete newApplicantErrors.image;
+
+      return {
+        ...prev,
+        applicant: newApplicantErrors,
+      };
+    });
+
     fileInputRef.current.value = "";
   };
 
@@ -103,6 +113,7 @@ const PersonalInfo = ({ data, setFormData, errors, setErrors }) => {
             onChange={handleChange}
             placeholder="الاسم الكامل"
           />
+
           {errors.fullName && (
             <span className="error-message">{errors.fullName}</span>
           )}
@@ -118,6 +129,7 @@ const PersonalInfo = ({ data, setFormData, errors, setErrors }) => {
             value={data.dateOfBirth}
             onChange={handleChange}
           />
+
           {errors.dateOfBirth && (
             <span className="error-message">{errors.dateOfBirth}</span>
           )}
@@ -134,6 +146,7 @@ const PersonalInfo = ({ data, setFormData, errors, setErrors }) => {
             onChange={handleChange}
             placeholder="المدينة"
           />
+
           {errors.placeOfBirth && (
             <span className="error-message">{errors.placeOfBirth}</span>
           )}
@@ -150,6 +163,7 @@ const PersonalInfo = ({ data, setFormData, errors, setErrors }) => {
             onChange={handleChange}
             placeholder="رقم التليفون"
           />
+
           {errors.phone && (
             <span className="error-message">{errors.phone}</span>
           )}
@@ -167,6 +181,7 @@ const PersonalInfo = ({ data, setFormData, errors, setErrors }) => {
             placeholder="example@email.com"
             dir="ltr"
           />
+
           {errors.email && (
             <span className="error-message">{errors.email}</span>
           )}
@@ -188,6 +203,7 @@ const PersonalInfo = ({ data, setFormData, errors, setErrors }) => {
             <option value="ماجستير">ماجستير</option>
             <option value="دكتوراه">دكتوراه</option>
           </select>
+
           {errors.qualification && (
             <span className="error-message">{errors.qualification}</span>
           )}
@@ -204,6 +220,7 @@ const PersonalInfo = ({ data, setFormData, errors, setErrors }) => {
             onChange={handleChange}
             placeholder="المدينة، الحي، الشارع"
           />
+
           {errors.address && (
             <span className="error-message">{errors.address}</span>
           )}
@@ -220,6 +237,7 @@ const PersonalInfo = ({ data, setFormData, errors, setErrors }) => {
             accept="image/*"
             onChange={handleImageChange}
           />
+
           {errors.image && (
             <span className="error-message">{errors.image}</span>
           )}
@@ -244,4 +262,4 @@ const PersonalInfo = ({ data, setFormData, errors, setErrors }) => {
   );
 };
 
-export default PersonalInfo;
+export default ApplicantInfo;

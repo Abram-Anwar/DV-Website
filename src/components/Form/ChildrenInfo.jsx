@@ -24,7 +24,6 @@ const ChildrenInfo = ({ data, setFormData, errors, setErrors }) => {
       ),
     }));
 
-    // إزالة الخطأ الخاص بالحقل
     setErrors((prev) => {
       const newChildrenErrors = [...(prev.children || [])];
 
@@ -41,19 +40,6 @@ const ChildrenInfo = ({ data, setFormData, errors, setErrors }) => {
         children: newChildrenErrors,
       };
     });
-  };
-
-  const validateChildren = () => {
-    const newErrors = data.map((child) => validateChild(child));
-
-    setErrors((prev) => ({
-      ...prev,
-      children: newErrors,
-    }));
-
-    return newErrors.every(
-      (childErrors) => Object.keys(childErrors).length === 0,
-    );
   };
 
   const removeChild = (index) => {

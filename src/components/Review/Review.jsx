@@ -140,7 +140,7 @@ const Review = ({ formData, status, hasChildren, setCurrentStep }) => {
             <div className="children-review-list">
               {formData.children.map((child, index) => (
                 <div className="child-review-card" key={index}>
-                  <h3>الطفل {index + 1}</h3>
+                  <h3>الأبن {index + 1}</h3>
 
                   <div className="review-grid">
                     <div className="review-field">
@@ -168,7 +168,7 @@ const Review = ({ formData, status, hasChildren, setCurrentStep }) => {
                     <div className="review-image">
                       <img
                         src={URL.createObjectURL(child.image)}
-                        alt={`صورة الطفل ${index + 1}`}
+                        alt={`صورة الأبن ${index + 1}`}
                       />
                     </div>
                   )}

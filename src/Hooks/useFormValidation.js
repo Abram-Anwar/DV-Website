@@ -1,101 +1,53 @@
-export const validateApplicant = (data) => {
-  const errors = {};
+import {
+  validateApplicant,
+  validateSpouse,
+  validateChildren,
+} from "../utils/formValidation";
 
-  if (!data.fullName.trim()) {
-    errors.fullName = "الاسم مطلوب";
-  } else if (data.fullName.trim().split(/\s+/).length < 4) {
-    errors.fullName = "يرجى إدخال الاسم الرباعي";
-  }
+const useFormValidation = (formData, setErrors) => {
+  const validateStep = (stepId) => {
+    switch (stepId) {
+      case "applicant": {
+        const newErrors = validateApplicant(formData.applicant);
 
-  if (!data.dateOfBirth) {
-    errors.dateOfBirth = "تاريخ الميلاد مطلوب";
-  }
+        setErrors((prev) => ({
+          ...prev,
+          applicant: newErrors,
+        }));
 
-  if (!data.placeOfBirth.trim()) {
-    errors.placeOfBirth = "مدينة / محافظة الميلاد مطلوبة";
-  }
+        return Object.keys(newErrors).length === 0;
+      }
 
-  if (!/^01\d{9}$/.test(data.phone)) {
-    errors.phone = "يرجى إدخال رقم هاتف مصري صحيح";
-  }
+      case "spouse": {
+        const newErrors = validateSpouse(formData.spouse);
 
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
-    errors.email = "يرجى إدخال بريد إلكتروني صحيح";
-  }
+        setErrors((prev) => ({
+          ...prev,
+          spouse: newErrors,
+        }));
 
-  if (!data.address.trim()) {
-    errors.address = "العنوان مطلوب";
-  }
+        return Object.keys(newErrors).length === 0;
+      }
 
-  if (!data.image) {
-    errors.image = "يرجى اختيار صورة";
-  }
+      case "children": {
+        const newErrors = validateChildren(formData.children);
 
-  if (!data.qualification) {
-    errors.qualification = "يرجى اختيار المؤهل";
-  }
+        setErrors((prev) => ({
+          ...prev,
+          children: newErrors,
+        }));
 
-  return errors;
+        return newErrors.every(
+          (childErrors) => Object.keys(childErrors).length === 0,
+        );
+      }
+
+      default:
+        return true;
+    }
+  };
+
+  return { validateStep };
 };
 
-export const validateSpouse = (data) => {
-  const errors = {};
-
-  if (!data.fullName.trim()) {
-    errors.fullName = "الاسم مطلوب";
-  } else if (data.fullName.trim().split(/\s+/).length < 4) {
-    errors.fullName = "يرجى إدخال الاسم الرباعي";
-  }
-
-  if (!data.dateOfBirth) {
-    errors.dateOfBirth = "تاريخ الميلاد مطلوب";
-  }
-
-  if (!data.placeOfBirth.trim()) {
-    errors.placeOfBirth = "مدينة / محافظة الميلاد مطلوبة";
-  }
-
-  if (!/^01\d{9}$/.test(data.phone)) {
-    errors.phone = "يرجى إدخال رقم هاتف مصري صحيح";
-  }
-
-  if (!data.image) {
-    errors.image = "يرجى اختيار صورة";
-  }
-
-  if (!data.qualification) {
-    errors.qualification = "يرجى اختيار المؤهل";
-  }
-
-  return errors;
-};
-
-export const validateChildren = (children) => {
-  return children.map((child) => {
-    const errors = {};
-
-    if (!child.fullName.trim()) {
-      errors.fullName = "اسم الابن مطلوب";
-    } else if (child.fullName.trim().split(/\s+/).length < 4) {
-      errors.fullName = "يرجى إدخال الاسم الرباعي";
-    }
-
-    if (!child.gender) {
-      errors.gender = "يرجى اختيار النوع";
-    }
-
-    if (!child.dateOfBirth) {
-      errors.dateOfBirth = "تاريخ الميلاد مطلوب";
-    }
-
-    if (!child.placeOfBirth.trim()) {
-      errors.placeOfBirth = "مدينة الميلاد مطلوبة";
-    }
-
-    if (!child.image) {
-      errors.image = "يرجى اختيار صورة الابن";
-    }
-
-    return errors;
-  });
-};
+export default useFormValidation;

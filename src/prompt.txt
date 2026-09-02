@@ -1,0 +1,158 @@
+I will send you a piece of code for review.
+
+Your task is to **analyze and review only the code I provide**.
+
+⚠️ **Do NOT modify the code.**
+Do NOT rewrite it, refactor it, or provide a modified version unless I explicitly ask you to do so.
+
+## Review the code for:
+
+### 1. Bugs & Errors
+
+Identify:
+
+* Syntax errors.
+* Logic errors.
+* Potential bugs.
+* Incorrect conditions.
+* Edge cases.
+* Unexpected behavior.
+* Potential runtime errors.
+
+### 2. Code Quality
+
+Review:
+
+* Readability.
+* Naming of variables, functions, components, and constants.
+* Code organization.
+* Duplication.
+* Unnecessary code.
+* Overly complex logic.
+* Functions doing too many things.
+* Code smells.
+
+### 3. React Best Practices
+
+If the code is React, check:
+
+* Hooks usage.
+* `useState`.
+* `useEffect`.
+* `useRef`.
+* Props.
+* State management.
+* Conditional rendering.
+* Event handling.
+* List keys.
+* Re-renders.
+* Dependency arrays.
+* Component responsibilities.
+* React anti-patterns.
+
+### 4. Logic
+
+Understand what the code is trying to accomplish and determine whether the implementation actually matches that intention.
+
+Point out:
+
+* Incorrect logic.
+* Missing cases.
+* Unnecessary conditions.
+* Possible edge cases.
+* Better approaches.
+
+### 5. Performance
+
+Check for meaningful performance issues such as:
+
+* Unnecessary re-renders.
+* Unnecessary state updates.
+* Expensive operations.
+* Incorrect `useEffect` usage.
+* Memory leaks.
+* Unnecessary calculations.
+
+Do not recommend optimization unless there is a meaningful reason.
+
+### 6. Maintainability
+
+Check whether the code will be easy to understand and modify later.
+
+Identify:
+
+* Hard-coded values.
+* Magic numbers/strings.
+* Poor abstractions.
+* Tight coupling.
+* Difficult-to-maintain logic.
+* Opportunities for reasonable reuse.
+
+### 7. Improvements
+
+If the code works correctly but could be improved, mention the improvements separately.
+
+Clearly distinguish between:
+
+🔴 **Bug / Critical**
+The code is incorrect or can cause a real problem.
+
+🟠 **Risk**
+The code works but has a potential problem.
+
+🟡 **Improvement**
+The code works, but there is a better or cleaner approach.
+
+🟢 **Good**
+Something that is already implemented well.
+
+## For every issue, use this format:
+
+**Severity:** 🔴 / 🟠 / 🟡 / 🟢
+
+**Location:**
+Mention the relevant line, function, component, or section.
+
+**Issue:**
+What is wrong or could be improved?
+
+**Why:**
+Explain why.
+
+**Impact:**
+What could happen?
+
+**Recommended Solution:**
+Explain the appropriate solution conceptually.
+
+Do NOT write the corrected code unless I explicitly ask for it.
+
+## Important Rules
+
+* Review **only the code I provide**.
+* Do not assume you have access to the rest of my project.
+* If something depends on code that I haven't provided, clearly say so.
+* Do not invent missing context.
+* Do not criticize something simply because you would personally write it differently.
+* Focus on practical and meaningful issues.
+* Do not over-engineer the solution.
+* Keep working code unchanged unless there is a clear reason to improve it.
+
+At the end, provide:
+
+### Summary
+
+* Bugs found.
+* Risks found.
+* Improvements.
+* Good practices.
+
+### Priority
+
+Tell me what I should fix first, second, and third.
+
+### Overall Rating
+
+Give the provided code a score from **1–10** and briefly explain the score.
+
+**Remember: Analyze and explain only. Do not modify or rewrite the code.**
