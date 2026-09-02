@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
 import useFormValidation from "../Hooks/useFormValidation";
 import getInitialFormData from "../utils/initialFormData";
-import getFormSteps from "../utils/formSteps";
+import getFormSteps from "../config/formSteps";
 import { Navigate, useLocation } from "react-router-dom";
 import { useState } from "react";
 import "./Form.css";
