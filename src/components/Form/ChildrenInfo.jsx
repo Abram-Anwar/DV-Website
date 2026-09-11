@@ -63,6 +63,8 @@ const ChildrenInfo = ({ data, setFormData, errors, setErrors }) => {
 
       return newPreviews;
     });
+
+    delete fileInputRefs.current[index];
   };
 
   const addChild = () => {
@@ -75,6 +77,7 @@ const ChildrenInfo = ({ data, setFormData, errors, setErrors }) => {
           gender: "",
           dateOfBirth: "",
           placeOfBirth: "",
+          qualification: "",
           image: null,
         },
       ],
@@ -87,7 +90,7 @@ const ChildrenInfo = ({ data, setFormData, errors, setErrors }) => {
   };
 
   const handleImageChange = (e, index) => {
-    const file = e.target.files[0];
+    const file = e.target.files?.[0];
 
     if (!file) return;
 
@@ -103,7 +106,6 @@ const ChildrenInfo = ({ data, setFormData, errors, setErrors }) => {
       ),
     }));
 
-    // إزالة خطأ الصورة
     setErrors((prev) => {
       const newChildrenErrors = [...(prev.children || [])];
 
@@ -138,9 +140,8 @@ const ChildrenInfo = ({ data, setFormData, errors, setErrors }) => {
 
       newChildrenErrors[index] = {
         ...(newChildrenErrors[index] || {}),
+        image: "يرجى اختيار صورة الابن",
       };
-
-      newChildrenErrors[index].image = "يرجى اختيار صورة الأبن";
 
       return {
         ...prev,
@@ -187,15 +188,15 @@ const ChildrenInfo = ({ data, setFormData, errors, setErrors }) => {
 
         return (
           <div className="child-card" key={index}>
-            <h3>الأبن {index + 1}</h3>
+            <h3>الابن {index + 1}</h3>
 
             <div className="form-grid">
-              {/* الاسم */}
               <div className="form-field">
-                <label>اسم الأبن</label>
+                <label htmlFor={`childFullName-${index}`}>اسم الابن</label>
 
                 <input
                   type="text"
+                  id={`childFullName-${index}`}
                   name="fullName"
                   value={child.fullName}
                   onChange={(e) => handleChange(e, index)}
@@ -203,15 +204,17 @@ const ChildrenInfo = ({ data, setFormData, errors, setErrors }) => {
                 />
 
                 {childErrors.fullName && (
-                  <span className="error-message">{childErrors.fullName}</span>
+                  <span className="error-message">
+                    {childErrors.fullName}
+                  </span>
                 )}
               </div>
 
-              {/* النوع */}
               <div className="form-field">
-                <label>النوع</label>
+                <label htmlFor={`childGender-${index}`}>النوع</label>
 
                 <select
+                  id={`childGender-${index}`}
                   name="gender"
                   value={child.gender}
                   onChange={(e) => handleChange(e, index)}
@@ -226,12 +229,14 @@ const ChildrenInfo = ({ data, setFormData, errors, setErrors }) => {
                 )}
               </div>
 
-              {/* تاريخ الميلاد */}
               <div className="form-field">
-                <label>تاريخ الميلاد</label>
+                <label htmlFor={`childDateOfBirth-${index}`}>
+                  تاريخ الميلاد
+                </label>
 
                 <input
                   type="date"
+                  id={`childDateOfBirth-${index}`}
                   name="dateOfBirth"
                   value={child.dateOfBirth}
                   onChange={(e) => handleChange(e, index)}
@@ -244,12 +249,14 @@ const ChildrenInfo = ({ data, setFormData, errors, setErrors }) => {
                 )}
               </div>
 
-              {/* مدينة الميلاد */}
               <div className="form-field">
-                <label>مدينة الميلاد</label>
+                <label htmlFor={`childPlaceOfBirth-${index}`}>
+                  مدينة الميلاد
+                </label>
 
                 <input
                   type="text"
+                  id={`childPlaceOfBirth-${index}`}
                   name="placeOfBirth"
                   value={child.placeOfBirth}
                   onChange={(e) => handleChange(e, index)}
@@ -263,22 +270,40 @@ const ChildrenInfo = ({ data, setFormData, errors, setErrors }) => {
                 )}
               </div>
 
-              {/* الصورة */}
               <div className="form-field full-width">
-                <label htmlFor={`childImage-${index}`}>صورة الأبن</label>
+                <label htmlFor={`childImage-${index}`}>صورة الابن</label>
 
-                <input
-                  ref={(element) => {
-                    fileInputRefs.current[index] = element;
-                  }}
-                  type="file"
-                  id={`childImage-${index}`}
-                  accept="image/*"
-                  onChange={(e) => handleImageChange(e, index)}
-                />
+                <div className="image-upload">
+                  <input
+                    ref={(element) => {
+                      fileInputRefs.current[index] = element;
+                    }}
+                    type="file"
+                    id={`childImage-${index}`}
+                    name="image"
+                    accept="image/*"
+                    onChange={(e) => handleImageChange(e, index)}
+                    className="image-upload-input"
+                  />
+
+                  <label
+                    htmlFor={`childImage-${index}`}
+                    className="image-upload-label"
+                  >
+                    <span className="image-upload-title">
+                      {child.image ? "تغيير الصورة" : "اختر صورة"}
+                    </span>
+
+                    <span className="image-upload-description">
+                      PNG أو JPG أو JPEG
+                    </span>
+                  </label>
+                </div>
 
                 {childErrors.image && (
-                  <span className="error-message">{childErrors.image}</span>
+                  <span className="error-message">
+                    {childErrors.image}
+                  </span>
                 )}
 
                 {imagePreviews[index] && (
@@ -294,7 +319,7 @@ const ChildrenInfo = ({ data, setFormData, errors, setErrors }) => {
 
                     <img
                       src={imagePreviews[index]}
-                      alt={`صورة الأبن ${index + 1}`}
+                      alt={`صورة الابن ${index + 1}`}
                     />
                   </div>
                 )}
@@ -313,7 +338,7 @@ const ChildrenInfo = ({ data, setFormData, errors, setErrors }) => {
       })}
 
       <button type="button" onClick={addChild}>
-        + إضافة أبن
+        + إضافة ابن
       </button>
     </section>
   );

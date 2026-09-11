@@ -4,12 +4,13 @@ import Footer from "../components/Footer/Footer";
 import useFormValidation from "../Hooks/useFormValidation";
 import getInitialFormData from "../utils/initialFormData";
 import getFormSteps from "../config/formSteps";
-import { Navigate, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import "./Form.css";
 
 const Form = () => {
   const { state } = useLocation();
+  const navigate = useNavigate();
 
   const [currentStep, setCurrentStep] = useState(0);
 
@@ -48,7 +49,16 @@ const Form = () => {
 
     if (currentStep < steps.length - 1) {
       setCurrentStep((prev) => prev + 1);
+      return;
     }
+
+    navigate("/payment", {
+      state: {
+        formData,
+        status,
+        hasChildren,
+      },
+    });
   };
 
   const handlePrevious = () => {
@@ -85,9 +95,8 @@ const Form = () => {
             type="button"
             className="form-btn next-btn"
             onClick={handleNext}
-            disabled={currentStep === steps.length - 1}
           >
-            متابعة
+            {currentStep === steps.length - 1 ? "متابعة للدفع" : "متابعة"}
             <span>←</span>
           </button>
         </div>

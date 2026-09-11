@@ -30,7 +30,7 @@ const ApplicantInfo = ({ data, setFormData, errors, setErrors }) => {
   };
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files?.[0];
 
     if (!file) return;
 
@@ -72,7 +72,9 @@ const ApplicantInfo = ({ data, setFormData, errors, setErrors }) => {
       };
     });
 
-    fileInputRef.current.value = "";
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   useEffect(() => {
@@ -229,14 +231,27 @@ const ApplicantInfo = ({ data, setFormData, errors, setErrors }) => {
         <div className="form-field full-width">
           <label htmlFor="image">صورة المتقدم</label>
 
-          <input
-            ref={fileInputRef}
-            type="file"
-            id="image"
-            name="image"
-            accept="image/*"
-            onChange={handleImageChange}
-          />
+          <div className="image-upload">
+            <input
+              ref={fileInputRef}
+              type="file"
+              id="image"
+              name="image"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="image-upload-input"
+            />
+
+            <label htmlFor="image" className="image-upload-label">
+              <span className="image-upload-title">
+                {data.image ? "تغيير الصورة" : "اختر صورة"}
+              </span>
+
+              <span className="image-upload-description">
+                PNG أو JPG أو JPEG
+              </span>
+            </label>
+          </div>
 
           {errors.image && (
             <span className="error-message">{errors.image}</span>

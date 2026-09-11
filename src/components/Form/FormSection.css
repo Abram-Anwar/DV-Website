@@ -1,6 +1,11 @@
 .personal-info {
   width: 100%;
+  min-width: 0;
 }
+
+/* =========================
+   Section Header
+========================= */
 
 .section-header {
   margin-bottom: 32px;
@@ -12,23 +17,34 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  min-width: 0;
 }
 
 .section-header h2 {
+  margin: 0;
+
   color: var(--color-primary);
   font-size: var(--text-headline-md);
   font-weight: 700;
 }
 
 .header-icon svg {
+  flex-shrink: 0;
   font-size: 24px;
   color: var(--color-secondary);
 }
 
 .section-header p {
+  margin: 8px 0 0;
+
   color: var(--color-on-surface-variant);
   font-size: var(--text-body-md);
+  line-height: 1.7;
 }
+
+/* =========================
+   Form Grid
+========================= */
 
 .form-grid {
   display: grid;
@@ -37,6 +53,8 @@
 }
 
 .form-field {
+  min-width: 0;
+
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -48,22 +66,33 @@
 
 .form-field label {
   color: var(--color-primary);
-  font-size: (--text-label-md);
+  font-size: var(--text-label-md);
   font-weight: 600;
 }
+
+/* =========================
+   Inputs
+========================= */
 
 .form-field input,
 .form-field select {
   width: 100%;
   min-height: 48px;
+  box-sizing: border-box;
+
   padding: 12px 14px;
+
   background-color: var(--color-surface);
   color: var(--color-on-surface);
+
   border: 1px solid var(--color-outline-variant);
   border-radius: var(--radius-sm);
+
   font-size: var(--text-body-md);
   font-family: var(--font-primary);
+
   outline: none;
+
   transition:
     border-color 0.2s ease,
     box-shadow 0.2s ease,
@@ -83,55 +112,10 @@
 .form-field input:focus,
 .form-field select:focus {
   border-color: var(--color-secondary);
+
   box-shadow: 0 0 0 3px var(--color-secondary-fixed);
+
   background-color: var(--color-surface-container-lowest);
-}
-
-.image-preview {
-  position: relative;
-  width: 160px;
-  height: 160px;
-  margin-top: 12px;
-  border: 1px solid var(--color-outline-variant);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  background-color: var(--color-surface-container);
-}
-
-.image-preview img {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: fill;
-}
-
-.remove-image {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-
-  width: 30px;
-  height: 30px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border: none;
-  border-radius: 50%;
-
-  background-color: rgba(0, 0, 0, 0.65);
-  color: white;
-
-  font-size: 20px;
-  cursor: pointer;
-
-  z-index: 2;
-  transition: 0.2s ease;
-}
-
-.remove-image:hover {
-  background-color: rgba(0, 0, 0, 0.85);
 }
 
 .form-field input[type="date"] {
@@ -144,36 +128,180 @@
   text-align: right;
 }
 
-.form-field input[type="file"] {
-  padding: 10px;
-  cursor: pointer;
+/* =========================
+   Image Upload
+========================= */
+
+.image-upload {
+  width: 100%;
 }
 
-.form-field input[type="file"]::file-selector-button {
-  margin-left: 12px;
-  padding: 8px 14px;
-  border: none;
-  border-radius: var(--radius-sm);
-  background-color: var(--color-secondary);
-  color: var(--color-on-primary);
-  font-family: inherit;
-  cursor: pointer;
+.image-upload-input {
+  position: absolute;
+
+  width: 1px;
+  height: 1px;
+
+  opacity: 0;
+
+  pointer-events: none;
 }
+
+.image-upload-label {
+  width: 100%;
+  min-height: 120px;
+  box-sizing: border-box;
+
+  padding: 24px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  background-color: var(--color-surface);
+
+  border: 1px dashed var(--color-outline-variant);
+  border-radius: var(--radius-sm);
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.image-upload-label:hover {
+  background-color: var(--color-surface-container-low);
+
+  border-color: var(--color-secondary);
+}
+
+.image-upload-input:focus-visible + .image-upload-label {
+  border-color: var(--color-secondary);
+
+  box-shadow: 0 0 0 3px var(--color-secondary-fixed);
+}
+
+.image-upload-title {
+  color: var(--color-secondary);
+
+  font-size: var(--text-body-md);
+  font-weight: 600;
+}
+
+.image-upload-description {
+  color: var(--color-on-surface-variant);
+
+  font-size: var(--text-body-sm);
+}
+
+/* =========================
+   Image Preview
+========================= */
+
+.image-preview {
+  position: relative;
+
+  width: 160px;
+  height: 160px;
+
+  margin-top: 12px;
+
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--radius-md);
+
+  overflow: hidden;
+
+  background-color: var(--color-surface-container);
+}
+
+.image-preview img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+}
+
+.remove-image {
+  position: absolute;
+
+  top: 8px;
+  right: 8px;
+
+  width: 30px;
+  height: 30px;
+
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 50%;
+
+  background-color: rgba(0, 0, 0, 0.65);
+  color: #fff;
+
+  font-size: 20px;
+
+  cursor: pointer;
+
+  z-index: 2;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.remove-image:hover {
+  background-color: rgba(0, 0, 0, 0.85);
+  transform: scale(1.05);
+}
+
+.remove-image:active {
+  transform: scale(0.95);
+}
+
+/* =========================
+   Error
+========================= */
 
 .error-message {
   display: block;
-  margin-top: 6px;
+
+  margin-top: 2px;
+
   color: var(--color-error);
+
   font-size: 0.85rem;
   font-weight: 500;
+
+  line-height: 1.5;
 }
+
+/* =========================
+   Children Card
+========================= */
 
 .child-card {
   position: relative;
+
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+
   padding: 24px;
   margin-bottom: 24px;
 
   background-color: var(--color-surface);
+
   border: 1px solid var(--color-outline-variant);
   border-radius: 16px;
 
@@ -183,32 +311,45 @@
 .child-card h3 {
   margin: 0 0 24px;
 
+  color: var(--color-primary);
+
   font-size: 1.1rem;
   font-weight: 700;
-
-  color: var(--color-primary);
 }
 
 .child-card .form-grid {
   margin: 0;
 }
 
+/* =========================
+   Add Child Button
+========================= */
+
 .personal-info > button {
+  width: 100%;
+  min-height: 48px;
+
+  margin-top: 8px;
+  padding: 0 20px;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   gap: 8px;
-  width: 100%;
-  min-height: 48px;
-  margin-top: 8px;
+
   border: 1px solid var(--color-primary);
   border-radius: 10px;
+
   background-color: var(--color-primary);
   color: #fff;
+
   font-size: 1rem;
   font-family: inherit;
   font-weight: 600;
+
   cursor: pointer;
+
   transition:
     background-color 0.2s ease,
     transform 0.2s ease,
@@ -225,27 +366,45 @@
   transform: translateY(0);
 }
 
+/* =========================
+   Remove Child Button
+========================= */
+
 .remove-child-btn {
   position: absolute;
+
   top: 16px;
   left: 16px;
+
   width: 38px;
   height: 38px;
+
+  padding: 0;
+
   border: none;
   border-radius: 8px;
+
   background-color: #fee2e2;
   color: var(--color-error);
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   cursor: pointer;
+
   font-size: 16px;
-  transition: all 0.2s ease;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .remove-child-btn:hover {
   background-color: #fecaca;
   color: #b91c1c;
+
   transform: translateY(-1px);
 }
 
@@ -253,39 +412,148 @@
   transform: scale(0.95);
 }
 
-@media (max-width: 768px) {
-  .child-card {
-    padding: 18px;
-    border-radius: 12px;
-  }
-
-  .child-card h3 {
-    margin-bottom: 18px;
-  }
-}
+/* =========================
+   Tablet
+========================= */
 
 @media (max-width: 768px) {
+  .section-header {
+    margin-bottom: 24px;
+  }
+
+  .section-header h2 {
+    font-size: var(--text-headline-sm);
+  }
+
+  .section-header p {
+    font-size: var(--text-body-sm);
+  }
+
   .form-grid {
     grid-template-columns: 1fr;
     gap: 20px;
   }
+
   .form-field.full-width {
     grid-column: auto;
   }
-  .section-header {
-    margin-bottom: 24px;
+
+  .child-card {
+    padding: 20px;
+    border-radius: 12px;
   }
-  .section-header h2 {
-    font-size: var(--text-headline-sm);
+
+  .child-card h3 {
+    margin-bottom: 20px;
+  }
+
+  .image-upload-label {
+    min-height: 110px;
   }
 }
+
+/* =========================
+   Mobile
+========================= */
+
 @media (max-width: 480px) {
+  .section-header {
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+  }
+
+  .header-icon {
+    gap: 8px;
+  }
+
+  .header-icon svg {
+    font-size: 22px;
+  }
+
+  .section-header h2 {
+    font-size: 20px;
+  }
+
+  .section-header p {
+    margin-top: 6px;
+    font-size: 13px;
+  }
+
   .form-grid {
     gap: 16px;
   }
+
   .form-field input,
   .form-field select {
     min-height: 46px;
     padding: 10px 12px;
+  }
+
+  .image-upload-label {
+    min-height: 105px;
+    padding: 18px 14px;
+  }
+
+  .image-upload-title {
+    font-size: 14px;
+  }
+
+  .image-upload-description {
+    font-size: 12px;
+  }
+
+  .image-preview {
+    width: 140px;
+    height: 140px;
+  }
+
+  .child-card {
+    padding: 18px 14px;
+    margin-bottom: 16px;
+  }
+
+  .child-card h3 {
+    margin-bottom: 18px;
+    padding-left: 42px;
+
+    font-size: 16px;
+  }
+
+  .remove-child-btn {
+    top: 12px;
+    left: 12px;
+
+    width: 34px;
+    height: 34px;
+
+    font-size: 14px;
+  }
+
+  .personal-info > button {
+    min-height: 46px;
+    font-size: 14px;
+  }
+}
+
+/* =========================
+   Small Mobile
+========================= */
+
+@media (max-width: 360px) {
+  .section-header h2 {
+    font-size: 18px;
+  }
+
+  .child-card {
+    padding: 16px 12px;
+  }
+
+  .image-upload-label {
+    min-height: 95px;
+  }
+
+  .image-preview {
+    width: 120px;
+    height: 120px;
   }
 }

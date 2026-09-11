@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { IoPeopleSharp } from "react-icons/io5";
-import { IoClose } from "react-icons/io5";
+import { IoPeopleSharp, IoClose } from "react-icons/io5";
 
 import "./FormSection.css";
 
@@ -31,7 +30,7 @@ const SpouseInfo = ({ data, setFormData, errors, setErrors }) => {
   };
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files?.[0];
 
     if (!file) return;
 
@@ -44,12 +43,12 @@ const SpouseInfo = ({ data, setFormData, errors, setErrors }) => {
     }));
 
     setErrors((prev) => {
-      const newApplicantErrors = { ...prev.spouse };
-      delete newApplicantErrors.image;
+      const newSpouseErrors = { ...prev.spouse };
+      delete newSpouseErrors.image;
 
       return {
         ...prev,
-        spouse: newApplicantErrors,
+        spouse: newSpouseErrors,
       };
     });
   };
@@ -63,7 +62,17 @@ const SpouseInfo = ({ data, setFormData, errors, setErrors }) => {
       },
     }));
 
-    fileInputRef.current.value = "";
+    setErrors((prev) => ({
+      ...prev,
+      spouse: {
+        ...prev.spouse,
+        image: "يرجى اختيار صورة",
+      },
+    }));
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   useEffect(() => {
@@ -127,7 +136,9 @@ const SpouseInfo = ({ data, setFormData, errors, setErrors }) => {
         </div>
 
         <div className="form-field">
-          <label htmlFor="spousePlaceOfBirth">مدينة / محافظة الميلاد</label>
+          <label htmlFor="spousePlaceOfBirth">
+            مدينة / محافظة الميلاد
+          </label>
 
           <input
             type="text"
@@ -185,14 +196,27 @@ const SpouseInfo = ({ data, setFormData, errors, setErrors }) => {
         <div className="form-field full-width">
           <label htmlFor="spouseImage">صورة الزوج / الزوجة</label>
 
-          <input
-            ref={fileInputRef}
-            type="file"
-            id="spouseImage"
-            name="image"
-            accept="image/*"
-            onChange={handleImageChange}
-          />
+          <div className="image-upload">
+            <input
+              ref={fileInputRef}
+              type="file"
+              id="spouseImage"
+              name="image"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="image-upload-input"
+            />
+
+            <label htmlFor="spouseImage" className="image-upload-label">
+              <span className="image-upload-title">
+                {data.image ? "تغيير الصورة" : "اختر صورة"}
+              </span>
+
+              <span className="image-upload-description">
+                PNG أو JPG أو JPEG
+              </span>
+            </label>
+          </div>
 
           {errors.image && (
             <span className="error-message">{errors.image}</span>

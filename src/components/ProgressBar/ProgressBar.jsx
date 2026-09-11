@@ -8,7 +8,7 @@ const ProgressBar = ({ steps, currentStep }) => {
       <div
         className="progress-line-active"
         style={{
-          width: `calc(${(currentStep / (steps.length - 1)) * 100}% + 25px)`,
+          width: `${(currentStep / (steps.length - 1)) * 100}%`,
         }}
       ></div>
 
