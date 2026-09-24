@@ -200,7 +200,7 @@ const ApplicantInfo = ({ data, setFormData, errors, setErrors }) => {
           >
             <option value="">اختر المؤهل</option>
             <option value="دبلوم">دبلوم</option>
-            <option value="ثانوي عامة">ثانوية عامة</option>
+            <option value="ثانوية عامة">ثانوية عامة</option>
             <option value="بكالوريوس">بكالوريوس</option>
             <option value="ماجستير">ماجستير</option>
             <option value="دكتوراه">دكتوراه</option>
