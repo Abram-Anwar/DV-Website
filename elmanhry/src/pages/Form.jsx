@@ -7,7 +7,7 @@ import getFormSteps from "../config/formSteps";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { submitApplication } from "../utils/api";
-import { buildPayload } from "../utils/buildPayload";
+import { buildPayload, buildFiles } from "../utils/buildPayload";
 import "./Form.css";
 
 const Form = () => {
@@ -82,8 +82,11 @@ const Form = () => {
 
     try {
       const payload = buildPayload(formData, status, hasChildren);
-      const { applicationId, applicationNumber } =
-        await submitApplication(payload);
+      const files = buildFiles(formData, status, hasChildren);
+      const { applicationId, applicationNumber } = await submitApplication(
+        payload,
+        files,
+      );
 
       navigate("/payment", {
         state: {

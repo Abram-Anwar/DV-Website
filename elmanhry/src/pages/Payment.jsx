@@ -7,6 +7,7 @@ import {
 import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
 import { useState } from "react";
+import { payTest } from "../utils/api";
 import "./Payment.css";
 
 //? Payment page: the last step in the flow (Home → Apply → Form → Payment).
@@ -22,6 +23,9 @@ const Payment = () => {
   const [expiryYear, setExpiryYear] = useState("");
   const [cvv, setCvv] = useState("");
 
+  //? True after the server confirms the payment.
+  const [isPaid, setIsPaid] = useState(false);
+
   //? Validation errors, stored by field name (errors.cvv, errors.cardNumber, ...).
   const [errors, setErrors] = useState({});
 
@@ -35,7 +39,7 @@ const Payment = () => {
   }
 
   //? We only need the form data here (to show the applicant's name).
-  const { formData } = state;
+  const { formData, applicationNumber, applicationId } = state;
 
   //? Fixed services fee shown in the order summary
   const serviceFee = 150;
@@ -170,27 +174,18 @@ const Payment = () => {
     setIsProcessing(true);
 
     try {
-      /*
-        Temporary simulation.
-
-        Later this function will call the backend:
-
-        POST /api/payments
-
-        The backend will create a real payment
-        through the payment gateway.
-
-        DO NOT send/store raw card data here
-        in the production implementation.
-      */
-
-      //? Wait 1.5 seconds to imitate a real request.
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      //? TEMPORARY: the server records a fake payment (no card data is sent)
+      await payTest(applicationId);
+      setIsPaid(true);
     } catch (error) {
-      //? Show a general payment error under the card form.
-      setErrors({
-        payment: "حدث خطأ أثناء معالجة الدفع. حاول مرة أخرى.",
-      });
+      //? 409 means this application was already paid, so treat it as paid
+      if (error.status === 409) {
+        setIsPaid(true);
+      } else {
+        setErrors({
+          payment: "حدث خطأ أثناء معالجة الدفع. حاول مرة أخرى.",
+        });
+      }
     } finally {
       //? Always re-enable the button, whether the payment succeeded or failed.
       setIsProcessing(false);
@@ -207,6 +202,15 @@ const Payment = () => {
 
           <p>الرجاء مراجعة تفاصيل الطلب وإتمام عملية الدفع بأمان.</p>
         </div>
+
+        {isPaid && (
+          <div className="payment-success">
+            <p>تم استلام طلبك ودفع الرسوم بنجاح.</p>
+            <p>
+              رقم طلبك: <strong dir="ltr">{applicationNumber}</strong>
+            </p>
+          </div>
+        )}
 
         <div className="payment-content">
           {/*
@@ -412,7 +416,7 @@ const Payment = () => {
                 type="button"
                 className="pay-button"
                 onClick={handlePayment}
-                disabled={isProcessing}
+                disabled={isProcessing || isPaid}
               >
                 {isProcessing ? (
                   <span>جاري معالجة الدفع...</span>

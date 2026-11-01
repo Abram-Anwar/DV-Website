@@ -49,3 +49,14 @@ export function buildPayload(formData, maritalStatus, hasChildren) {
 
   return payload;
 }
+
+  //? Collects the image files, in the same order as the data sent to the server
+  export function buildFiles(formData, maritalStatus, hasChildren) {
+    const { applicant, spouse, children } = formData;
+
+    return {
+      applicantImage: applicant.image,
+      spouseImage: maritalStatus === "married" ? spouse.image : null,
+      childImages: hasChildren === "yes" ? children.map((c) => c.image) : [],
+    };
+  }
