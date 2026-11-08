@@ -1,0 +1,148 @@
+
+
+.table-wrapper h2 {
+  margin-bottom: 50px;
+}
+
+/* ---------- Card around the table ---------- */
+.table-wrapper {
+  overflow-x: auto; /* scroll sideways on small screens instead of breaking the page */
+  background: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-hover);
+}
+
+/* ---------- Table ---------- */
+.data-table {
+  width: 100%;
+  border-collapse: collapse; /* one line between rows instead of double borders */
+  font-family: var(--font-main);
+  text-align: start; /* "start" follows the page direction: right in RTL, left in LTR */
+}
+
+.data-table th,
+.data-table td {
+  padding: var(--space-md) var(--space-lg);
+  white-space: nowrap;
+  text-align: center;
+}
+
+/* ---------- Header row ---------- */
+.data-table th {
+  background: var(--color-surface-container-low);
+  color: var(--color-on-surface-variant);
+  font-size: var(--font-size-label-md);
+  line-height: var(--line-height-label-md);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-label-md);
+  border-bottom: 1px solid var(--color-outline-variant);
+}
+
+/* ---------- Body rows ---------- */
+.data-table td {
+  color: var(--color-on-surface);
+  font-size: var(--font-size-body-sm);
+  line-height: var(--line-height-body-sm);
+  border-bottom: 1px solid var(--color-surface-container);
+  font-variant-numeric: tabular-nums; /* digits have equal width, so columns line up */
+}
+
+.data-table tbody tr:last-child td {
+  border-bottom: none; /* the card already has a border at the bottom */
+}
+
+.data-table tbody tr {
+  transition: background var(--transition-fast);
+}
+
+.data-table tbody tr:hover {
+  background: var(--color-surface-container-low);
+}
+
+/* ---------- Special cells ---------- */
+.cell-id {
+  color: var(--color-primary-container);
+  font-weight: var(--font-weight-bold);
+}
+
+.cell-center {
+  text-align: center;
+}
+
+/* ---------- Status badges ---------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* small colored dot before the text, it takes the badge text color */
+.badge::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: currentColor;
+}
+
+.badge-paid {
+  background: var(--color-tertiary-fixed);
+  color: var(--color-on-tertiary-fixed-variant);
+}
+
+.badge-ready {
+  background: var(--color-secondary-fixed);
+  color: var(--color-on-secondary-fixed-variant);
+}
+
+/* ---------- "View" button in the actions column ---------- */
+.table-action {
+  display: inline-block;
+  padding: var(--space-xs) var(--space-md);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--radius-default);
+  color: var(--color-secondary);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+  user-select: none;
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.table-action:hover {
+  background: var(--color-secondary);
+  border-color: var(--color-secondary);
+  color: var(--color-on-secondary);
+}
+
+/* keyboard users need to see where the focus is */
+.table-action:focus-visible {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
+}
+
+/* ---------- Empty state ---------- */
+.table-empty {
+  padding: var(--space-xl);
+  text-align: center;
+  color: var(--color-on-surface-variant);
+  font-size: var(--font-size-body-md);
+  background: var(--color-surface-container-lowest);
+  border: 1px dashed var(--color-outline-variant);
+  border-radius: var(--radius-lg);
+}
+
+/* ---------- Small screens ---------- */
+@media (max-width: 640px) {
+  .data-table th,
+  .data-table td {
+    padding: var(--space-sm) var(--space-md);
+  }
+}

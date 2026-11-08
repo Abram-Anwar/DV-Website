@@ -122,9 +122,43 @@ router.get("/overview", requireAdmin, async (req, res) => {
         AND currency = 'EGP'
     `);
 
+    //? The "ready to submit" queue: paid applications the owner has not submitted yet
+    const [recentApplicationsRows] = await pool.query(`
+  SELECT
+    a.id,
+    a.application_number AS applicationNumber,
+    ap.full_name         AS applicantName,
+    a.marital_status     AS maritalStatus,
+
+    (
+      SELECT COUNT(*)
+      FROM children c
+      WHERE c.application_id = a.id
+    ) AS childrenCount,
+
+    a.created_at AS createdAt
+
+  FROM applications a
+
+  JOIN applicants ap
+    ON ap.application_id = a.id
+
+  WHERE a.application_status = 'not_submitted'
+    AND EXISTS (
+      SELECT 1
+      FROM payments p
+      WHERE p.application_id = a.id
+        AND p.payment_status = 'paid'
+    )
+
+  ORDER BY a.created_at DESC
+  LIMIT 5
+`);
+
     res.json({
       ...applicationRows[0],
       totalPayments: Number(paymentRows[0].totalPayments),
+      recentApplications: recentApplicationsRows,
     });
   } catch (err) {
     console.log(err);

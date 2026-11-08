@@ -1,9 +1,16 @@
-import { FiCheckCircle, FiFileText, FiClock, FiCreditCard } from "react-icons/fi";
+import {
+  FiCheckCircle,
+  FiFileText,
+  FiClock,
+  FiCreditCard,
+} from "react-icons/fi";
 import { MdOutlinePayments } from "react-icons/md";
 import { useEffect, useState } from "react";
 
 import StatCard from "../../components/StatCard/StatCard";
 import "./overview.css";
+import RecentApplicationsTable from "../../components/RecentApplicationsTable/RecentApplicationsTable";
+import { Link } from "react-router-dom";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
@@ -107,6 +114,23 @@ const Overview = () => {
           variant="primary"
         />
       </div>
+
+      <section className="table-section">
+        <div className="table-section-header">
+          <div>
+            <h2 className="table-section-title">طلبات جاهزة للتقديم</h2>
+            <p className="table-section-subtitle">
+              طلبات تم دفع رسومها وبانتظار تقديمك لها.
+            </p>
+          </div>
+
+          <Link to="/applications" className="table-section-link">
+            عرض كل الطلبات
+          </Link>
+        </div>
+
+        <RecentApplicationsTable rows={overview.recentApplications} />
+      </section>
     </div>
   );
 };

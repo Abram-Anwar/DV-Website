@@ -15,6 +15,15 @@ body {
   background-color: var(--color-background);
   color: var(--color-on-surface);
   direction: rtl;
+  user-select: none;
+}
+
+/* Keep selection where people type or need to copy */
+input,
+textarea,
+.data-table td {
+  -webkit-user-select: text;
+  user-select: text;
 }
 
 main {
