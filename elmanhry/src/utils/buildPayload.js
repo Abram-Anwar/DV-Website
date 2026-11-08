@@ -41,7 +41,6 @@ export function buildPayload(formData, maritalStatus, hasChildren) {
       fullName: spouse.fullName,
       dateOfBirth: spouse.dateOfBirth,
       placeOfBirth: spouse.placeOfBirth,
-      //? Empty optional fields become undefined, so JSON.stringify drops them
       qualification: spouse.qualification,
       phone: spouse.phone,
     };

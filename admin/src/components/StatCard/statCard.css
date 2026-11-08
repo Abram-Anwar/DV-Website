@@ -1,0 +1,161 @@
+/* ==========================================================
+   Base card
+   ========================================================== */
+
+.stat-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-lg);
+  background-color: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-surface-container-high);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition:
+    transform var(--transition-base),
+    box-shadow var(--transition-base),
+    border-color var(--transition-base);
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--color-outline-variant);
+}
+
+/* Colored accent line on top of the card */
+.stat-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: transparent;
+}
+
+/* ==========================================================
+   Content
+   ========================================================== */
+
+.stat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.stat-title {
+  font-size: var(--font-size-label-md);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-label-md);
+  color: var(--color-on-surface-variant);
+}
+
+.stat-icon-wrapper {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-headline-sm);
+  border-radius: var(--radius-default);
+  background-color: var(--color-surface-container);
+  color: var(--color-on-surface-variant);
+}
+
+.stat-value-group {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-xs);
+}
+
+.stat-value {
+  font-size: var(--font-size-stat-metric);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-stat-metric);
+  letter-spacing: -0.02em;
+  color: var(--color-on-surface);
+}
+
+.stat-unit {
+  font-size: var(--font-size-body-md);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-on-surface-variant);
+}
+
+.stat-description {
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-body-sm);
+  color: var(--color-on-surface-variant);
+}
+
+/* ==========================================================
+   Variants (default = the gray values above)
+   ========================================================== */
+/* Grey */
+.stat-card.default::before {
+  background: var(--color-on-surface-variant);
+}
+
+/* Blue */
+.stat-card.primary::before {
+  background: var(--color-secondary);
+}
+
+.stat-card.primary .stat-icon-wrapper {
+  background-color: var(--color-secondary-fixed);
+  color: var(--color-secondary);
+}
+
+.stat-card.primary .stat-value {
+  color: var(--color-secondary);
+}
+
+/* Green */
+.stat-card.success::before {
+  background: var(--color-tertiary-fixed-dim);
+}
+
+.stat-card.success .stat-icon-wrapper {
+  background-color: color-mix(
+    in srgb,
+    var(--color-tertiary-fixed-dim) 15%,
+    transparent
+  );
+  color: var(--color-on-tertiary-container);
+}
+
+.stat-card.success .stat-value {
+  color: var(--color-on-tertiary-container);
+}
+
+/* Yellow */
+.stat-card.warning::before {
+  background: var(--color-warning-accent);
+}
+
+.stat-card.warning .stat-icon-wrapper {
+  background-color: var(--color-warning-container);
+  color: var(--color-warning);
+}
+
+.stat-card.warning .stat-value {
+  color: var(--color-warning);
+}
+
+/* Red */
+.stat-card.error::before {
+  background: var(--color-error);
+}
+
+.stat-card.error .stat-icon-wrapper {
+  background-color: var(--color-error-container);
+  color: var(--color-error);
+}
+
+.stat-card.error .stat-value {
+  color: var(--color-error);
+}

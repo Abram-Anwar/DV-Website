@@ -1,0 +1,12 @@
+.layout-content {
+  margin-right: var(--sidebar-width);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 650px) {
+  .layout-content {
+    margin-right: 0;
+  }
+}

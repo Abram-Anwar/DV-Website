@@ -1,0 +1,137 @@
+.sidebar {
+  position: fixed;
+  z-index: 50;
+  inset: 0 0 0 auto;
+  width: var(--sidebar-width);
+  border-top-left-radius: var(--radius-default);
+  border-bottom-left-radius: var(--radius-default);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: var(--color-on-primary);
+  background: var(--color-on-primary-fixed);
+  box-shadow: var(--shadow-sidebar);
+}
+
+/* Logo */
+
+.logo {
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-bottom: 1px solid #7777;
+}
+
+.logo h2 {
+  letter-spacing: var(--letter-spacing-label-md);
+}
+
+.logo div {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.logo img {
+  width: 55px;
+  height: 55px;
+  object-fit: contain;
+}
+
+.logo p {
+  font-size: var(--font-size-caption);
+  color: var(--color-outline-variant);
+  margin-bottom: 30px;
+}
+
+/* Navigation */
+
+.sidebar-nav {
+  padding: 10px;
+  display: grid;
+  gap: 6px;
+}
+
+.sidebar-link {
+  min-height: 44px;
+  padding: 10px 14px;
+  color: #aab8d8;
+  text-decoration: none;
+  border-radius: 10px;
+  transition: color var(--transition-base);
+}
+
+.label {
+  display: flex;
+  gap: 10px;
+}
+
+.label .icon {
+  font-size: 18px;
+}
+
+.sidebar-link:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-on-primary);
+}
+
+.sidebar-link.active {
+  background: var(--color-secondary);
+  color: var(--color-on-secondary);
+  font-weight: var(--font-weight-bold);
+}
+
+/* Responsive */
+
+@media (max-width: 900px) {
+  .admin-sidebar {
+    width: 230px;
+  }
+}
+
+@media (max-width: 650px) {
+  .sidebar {
+    position: static;
+    width: auto;
+    min-height: auto;
+  }
+
+  .logo {
+    min-height: 70px;
+    padding: 14px 18px;
+  }
+
+  .sidebar-nav {
+    padding: 10px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .sidebar-link {
+    justify-content: center;
+    padding: 9px 6px;
+    font-size: var(--font-size-label-sm);
+    gap: 5px;
+  }
+}
+
+/* Logout */
+
+.sidebar-footer {
+  padding: 10px;
+}
+
+.sidebar-footer .logout {
+  width: 100%;
+  font-family: inherit;
+  font-size: inherit;
+  text-align: start;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.sidebar-footer .logout:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-error-container);
+}

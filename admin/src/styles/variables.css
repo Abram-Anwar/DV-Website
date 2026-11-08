@@ -1,0 +1,143 @@
+/* ==========================================================
+   variables.css  —  ELMNAHRY Dashboard
+   ========================================================== */
+
+:root {
+  /* ---------- Primary colors ---------- */
+  --color-primary: #031635;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #1a2b4b;
+  --color-on-primary-container: #7988b0;
+  --color-primary-fixed: #d9e2ff;
+  --color-primary-fixed-dim: #b6c6f1;
+  --color-on-primary-fixed: #081a3c;
+  --color-on-primary-fixed-variant: #37466a;
+  --color-inverse-primary: #b6c6f1;
+  --color-surface-tint: #4f5e83;
+
+  /* ---------- Secondary color (blue) ---------- */
+  --color-secondary: #0051d5;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #316bf3;
+  --color-on-secondary-container: #fefcff;
+  --color-secondary-fixed: #dbe1ff;
+  --color-secondary-fixed-dim: #b4c5ff;
+  --color-on-secondary-fixed: #00174b;
+  --color-on-secondary-fixed-variant: #003ea8;
+
+  /* ---------- Tertiary color (green - success/paid) ---------- */
+  --color-tertiary: #001c10;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #003320;
+  --color-on-tertiary-container: #00a774;
+  --color-tertiary-fixed: #6ffbbe;
+  --color-tertiary-fixed-dim: #00a774;
+  --color-on-tertiary-fixed: #ffffff;
+  --color-on-tertiary-fixed-variant: #005236;
+
+  /* ---------- Errors ---------- */
+  --color-error: #ba1a1a;
+  --color-on-error: #ffffff;
+  --color-error-container: #ffdad6;
+  --color-on-error-container: #93000a;
+  --color-warning: #d68007;
+  --color-warning-container: #fef9c3;
+  --color-warning-accent: #FFD700;
+
+  /* ---------- Backgrounds & surfaces ---------- */
+  --color-background: #f7f9fb;
+  --color-on-background: #0b1c30;
+  --color-surface: #f7f9fb;
+  --color-surface-bright: #f8f9ff;
+  --color-surface-dim: #cbdbf5;
+  --color-surface-variant: #d3e4fe;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f2f4f6;
+  --color-surface-container: #eceef0;
+  --color-surface-container-high: #e6e8ea;
+  --color-surface-container-highest: #e0e3e5;
+
+  /* ---------- Text & borders ---------- */
+  --color-on-surface: #191c1e;
+  --color-on-surface-variant: #44474e;
+  --color-outline: #75777f;
+  --color-outline-variant: #c5c6cf;
+  --color-inverse-surface: #213145;
+  --color-inverse-on-surface: #eaf1ff;
+
+  /* ---------- Fonts ---------- */
+  --font-main: "Cairo", "Roboto", sans-serif;
+
+  /* ---------- Font sizes ---------- */
+  --font-size-caption: 12px;
+  --font-size-label-sm: 11px;
+  --font-size-label-md: 14px;
+  --font-size-body-sm: 13px;
+  --font-size-body-md: 16px;
+  --font-size-body-lg: 18px;
+  --font-size-title-sm: 16px;
+  --font-size-headline-sm: 20px;
+  --font-size-headline-md: 24px;
+  --font-size-headline-lg: 32px;
+  --font-size-stat-metric: 30px;
+  --font-size-headline-xl: 30px;
+
+  /* ---------- Line heights ---------- */
+  --line-height-label-sm: 14px;
+  --line-height-label-md: 16px;
+  --line-height-body-sm: 20px;
+  --line-height-body-md: 22px;
+  --line-height-body-lg: 26px;
+  --line-height-title-sm: 24px;
+  --line-height-headline-md: 28px;
+  --line-height-headline-lg: 32px;
+  --line-height-stat-metric: 34px;
+  --line-height-headline-xl: 38px;
+
+  /* ---------- Font weights ---------- */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* ---------- Letter spacing ---------- */
+  --letter-spacing-label-md: 0.02em;
+
+  /* ---------- Spacing ---------- */
+  --space-xs: 0.25rem; /* 4px  */
+  --space-sm: 0.5rem; /* 8px  */
+  --space-md: 1rem; /* 16px */
+  --space-lg: 1.5rem; /* 24px */
+  --space-xl: 2rem; /* 32px */
+  --gutter: 1.5rem;
+  --margin: 2rem;
+
+  --spacing-mobile: 1rem;
+  --spacing-stack: 2rem;
+  --spacing-section: 4rem;
+
+  /* ---------- Border radius ---------- */
+  --radius-sm: 0.25rem;
+  --radius-default: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
+  --radius-pill: 9999px;
+
+  /* ---------- Shadows ---------- */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-sidebar: 0 1px 8px rgba(0, 0, 0, 0.04);
+  --shadow-hover: 0 8px 24px rgba(26, 43, 75, 0.05);
+
+  /* ---------- Layout dimensions ---------- */
+  --container-max-width: 1280px;
+  --sidebar-width: 18rem; /* w-72 */
+  --header-height: 4rem; /* h-16 */
+
+  /* ---------- Transitions ---------- */
+  --transition-fast: 150ms ease;
+  --transition-base: 300ms ease;
+}

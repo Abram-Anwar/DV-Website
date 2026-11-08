@@ -174,8 +174,8 @@ router.post("/", handleUpload, async (req, res) => {
           spouse.fullName,
           spouse.dateOfBirth,
           spouse.placeOfBirth,
-          spouse.qualification ?? null,
-          spouse.phone ?? null,
+          spouse.qualification,
+          spouse.phone,
           spouseImage.filename,
         ],
       );

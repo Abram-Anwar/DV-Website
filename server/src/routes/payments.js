@@ -6,7 +6,7 @@ import { pool } from "../db.js";
 const router = Router();
 
 //? The fee is decided by the server, never by the browser
-const SERVICE_FEE = 150;
+const SERVICE_FEE = 300;
 
 const bodySchema = z.object({ applicationId: z.string().uuid() });
 
