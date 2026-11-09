@@ -5,6 +5,7 @@ import rateLimit from "express-rate-limit";
 import { z } from "zod";
 import { pool } from "../db.js";
 import { requireAdmin, COOKIE_NAME } from "../middlewares/requireAdmin.js";
+import { PAY_STATUS_SQL } from "../services/paymentStatus.js";
 
 const router = Router();
 
@@ -161,9 +162,104 @@ router.get("/overview", requireAdmin, async (req, res) => {
       recentApplications: recentApplicationsRows,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(500).json({
       message: "Could not fetch overview statistics",
+    });
+  }
+});
+
+//? Query string rules: only "page" is accepted from the browser
+const applicationQuerySchema = z.object({
+  page: z.coerce.number().int().min(1).default(1),
+  submission: z.enum(["all", "submitted", "not_submitted"]).default("all"),
+  payment: z
+    .enum(["all", "not_started", "pending", "paid", "failed_cancelled"])
+    .default("all"),
+  search: z.string().trim().max(100).default(""),
+});
+
+//? Fixed on the server: the browser can never ask for thousands of rows at once
+const PAGE_SIZE = 20;
+
+//? Applications list (for now: no filters, newest first, 20 per page)
+router.get(`/applications`, requireAdmin, async (req, res) => {
+  const parsed = applicationQuerySchema.safeParse(req.query);
+  if (!parsed.success) {
+    return res.status(400).json({ message: "Invalid data" });
+  }
+  const { page, submission, payment, search } = parsed.data;
+
+  const offset = (page - 1) * PAGE_SIZE;
+  
+  const escaped = search.replace(/[\\%_]/g, "\\$&");
+
+  //? The WHERE is built from pieces: a piece is added only if the user chose that filter.
+  //? "conditions" holds the SQL text, "params" holds the values for its "?" marks.
+  const conditions = [];
+  const params = [];
+
+  if (submission !== "all") {
+    conditions.push("a.application_status = ?");
+    params.push(submission);
+  }
+
+  if (payment === "failed_cancelled") {
+    //? Only the applications whose payment failed or was cancelled
+    conditions.push(`${PAY_STATUS_SQL} IN ('failed', 'cancelled')`);
+  } else if (payment !== "all") {
+    //? paid, pending or not_started: one exact status, the value goes in params
+    conditions.push(`${PAY_STATUS_SQL} = ?`);
+    params.push(payment);
+  }
+  
+  if (search !== "") {
+    conditions.push("(ap.full_name LIKE ? OR a.application_number LIKE ?)");
+    params.push(`%${escaped}%`, `%${escaped}%`);
+  }
+
+  const where = conditions.length ? `WHERE ${conditions.join(" AND ")}` : "";
+
+  //? Used by BOTH queries, so "total" always counts the same rows the list shows
+  const fromAndWhere = `
+    FROM applications a
+    JOIN applicants ap ON ap.application_id = a.id
+    ${where}
+  `;
+
+  try {
+    //? Query 1: the rows of the requested page
+    const [rows] = await pool.query(
+      `SELECT
+          a.id,
+          a.application_number AS applicationNumber,
+          ap.full_name         AS applicantName,
+          a.marital_status     AS maritalStatus,
+          (
+          SELECT COUNT(*)
+            FROM children c
+            WHERE c.application_id = a.id
+          ) AS childrenCount,
+          ${PAY_STATUS_SQL}    AS paymentStatus,
+          a.application_status AS applicationStatus,
+          a.created_at         AS createdAt
+          ${fromAndWhere}
+        ORDER BY a.created_at DESC, a.id DESC
+        LIMIT ? OFFSET ?`,
+      [...params, PAGE_SIZE, offset],
+    );
+
+    // Query 2: how many applications exist in total (all pages)
+    const [[{ total }]] = await pool.query(
+      `SELECT COUNT(*) AS total ${fromAndWhere}`,
+      params,
+    );
+
+    res.json({ rows, total: Number(total), page, pageSize: PAGE_SIZE });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      message: "Could not fetch applications data",
     });
   }
 });
