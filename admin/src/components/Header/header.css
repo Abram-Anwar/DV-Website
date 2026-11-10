@@ -1,50 +1,12 @@
 .header {
   height: var(--header-height);
   display: flex;
-  justify-content: space-between;
+  /* //? Was space-between; now only admin-info is left, so push it to the end (same place as before) */
+  justify-content: flex-end;
   align-items: center;
   background-color: var(--color-surface-container-lowest);
   border-bottom: 1px solid var(--color-outline-variant);
   padding: 0 25px;
-}
-
-/* Search */
-
-.search {
-  margin-right: 20px;
-  position: relative;
-  width: 100%;
-  max-width: 420px;
-}
-
-.search-icon {
-  position: absolute;
-  top: 50%;
-  inset-inline-start: 12px;
-  transform: translateY(-50%);
-  color: var(--color-outline);
-  pointer-events: none;
-}
-
-.search input {
-  width: 100%;
-  padding: 8px 40px;
-  font-family: inherit;
-  font-size: var(--font-size-body-sm);
-  color: var(--color-on-surface);
-  background-color: var(--color-surface-container-low);
-  border: 1px solid var(--color-outline-variant);
-  border-radius: var(--radius-default);
-  outline: none;
-  transition: border-color var(--transition-fast);
-}
-
-.search input::placeholder {
-  color: var(--color-outline);
-}
-
-.search input:focus {
-  border-color: var(--color-secondary);
 }
 
 /* Admin info */

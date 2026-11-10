@@ -1,0 +1,299 @@
+
+/* ==========================================================
+   ELMNAHRY Dashboard — Data Table
+   ========================================================== */
+
+/* ---------- Table Wrapper ---------- */
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  background: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-outline-variant) transparent;
+}
+
+/* ---------- Table ---------- */
+
+.data-table {
+  width: 100%;
+  min-width: 1050px;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-family: var(--font-main);
+  text-align: start;
+}
+
+/* ---------- Table Cells ---------- */
+
+.data-table th,
+.data-table td {
+  padding: 17px 20px;
+  white-space: nowrap;
+  text-align: center;
+}
+
+/* ---------- Header ---------- */
+
+.data-table thead {
+  background: var(--color-surface-container-low);
+}
+
+.data-table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--color-surface-container-low);
+  color: var(--color-on-surface-variant);
+  font-size: var(--font-size-label-md);
+  line-height: var(--line-height-label-md);
+  font-weight: var(--font-weight-bold);
+  border-bottom: 1px solid var(--color-outline-variant);
+}
+
+/* ---------- Body ---------- */
+
+.data-table td {
+  color: var(--color-on-surface);
+  font-size: var(--font-size-body-sm);
+  line-height: var(--line-height-body-sm);
+  font-weight: var(--font-weight-medium);
+  border-bottom: 1px solid var(--color-surface-container);
+  font-variant-numeric: tabular-nums;
+}
+
+.data-table tbody tr {
+  background: var(--color-surface-container-lowest);
+  transition: background var(--transition-fast);
+}
+
+.data-table tbody tr:hover {
+  background: var(--color-surface-container-low);
+}
+
+.data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ---------- First Column (Row Number) ---------- */
+
+.data-table th:first-child,
+.data-table td:first-child {
+  width: 55px;
+  padding-inline: 18px;
+  text-align: center;
+  color: var(--color-on-surface-variant);
+}
+
+/* ---------- Application Number ---------- */
+
+.cell-id {
+  color: var(--color-primary) !important;
+  font-weight: var(--font-weight-bold) !important;
+  letter-spacing: 0.02em;
+  direction: ltr;
+}
+
+/* ---------- Status Badges ---------- */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-width: 100px;
+  padding: 6px 12px;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-caption);
+  line-height: 18px;
+  font-weight: var(--font-weight-bold);
+  white-space: nowrap;
+}
+
+.badge::before {
+  content: "";
+  flex-shrink: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: var(--radius-full);
+  background: currentColor;
+}
+
+/* ---------- Application Status ---------- */
+
+.badge-submitted {
+  background: #e3f6ed;
+  color: #087443;
+}
+
+.badge-not-submitted {
+  background: var(--color-surface-container);
+  color: var(--color-on-surface-variant);
+}
+
+.badge-ready {
+  background: var(--color-secondary-fixed);
+  color: var(--color-on-secondary-fixed-variant);
+}
+
+/* ---------- Payment Status ---------- */
+
+.badge-paid {
+  background: #e3f6ed;
+  color: #087443;
+}
+
+.badge-pending {
+  background: #fff3d9;
+  color: #946000;
+}
+
+.badge-failed {
+  background: var(--color-error-container);
+  color: var(--color-on-error-container);
+}
+
+.badge-cancelled {
+  background: var(--color-surface-container);
+  color: var(--color-on-surface-variant);
+}
+
+.badge-not-started {
+  background: #edf1f7;
+  color: #52627a;
+}
+
+/* ---------- Table Action ---------- */
+
+.table-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 65px;
+  padding: 7px 15px;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--radius-default);
+  background: var(--color-surface-container-lowest);
+  color: var(--color-secondary);
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-bold);
+  text-decoration: none;
+  user-select: none;
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast),
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.table-action:hover {
+  background: var(--color-secondary);
+  border-color: var(--color-secondary);
+  color: var(--color-on-secondary);
+  box-shadow: 0 2px 8px rgba(0, 81, 213, 0.15);
+}
+
+.table-action:focus-visible {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 3px;
+}
+
+/* ---------- Empty State ---------- */
+
+.table-empty {
+  padding: var(--space-xl);
+  text-align: center;
+  color: var(--color-on-surface-variant);
+  font-size: var(--font-size-body-md);
+  background: var(--color-surface-container-lowest);
+  border: 1px dashed var(--color-outline-variant);
+  border-radius: var(--radius-lg);
+}
+
+/* ---------- Pagination ---------- */
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 20px;
+  margin-top: 15px;
+  border-top: 1px solid var(--color-outline-variant);
+  background-color: var(--color-surface);
+}
+
+.pagination-info {
+  margin: 0;
+  color: var(--color-on-surface-variant);
+  /* font-size: 16px; */
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pagination-btn {
+  padding: 8px 16px;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: 8px;
+  background-color: var(--color-surface);
+  color: var(--color-on-surface);
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background-color: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pagination-current {
+  color: var(--color-on-surface);
+  font-size: 14px;
+  font-weight: 600;
+  direction: ltr;
+}
+
+@media (max-width: 600px) {
+  .pagination {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .pagination-controls {
+    justify-content: space-between;
+  }
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 768px) {
+  .table-wrapper {
+    border-radius: var(--radius-md);
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 14px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .data-table th,
+  .data-table td {
+    padding: 12px 14px;
+  }
+}

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import "./recentApplicationsTable.css";
+import "../../styles/table.css";
 
 const formatData = (value) => {
   return new Date(value).toLocaleDateString("en-US", {
@@ -8,6 +8,7 @@ const formatData = (value) => {
     day: "numeric",
   });
 };
+
 
 const RecentApplicationsTable = ({ rows }) => {
   //? Nothing to show: print a message instead of an empty table

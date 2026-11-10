@@ -1,21 +1,15 @@
-import { FiSearch, FiUser } from "react-icons/fi";
+import { FiUser } from "react-icons/fi";
 import "./header.css";
-import { useEffect, useState } from "react";
 import { useAuth } from "../../context/auth-context";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const Header = () => {
-  const {admin} = useAuth();
+  const { admin } = useAuth();
 
+  //? The search box moved to the Applications page
   return (
     <header className="header">
-      {/* Search */}
-      <div className="search">
-        <FiSearch className="search-icon" />
-        <input type="text" placeholder="بحث برقم الطلب، اسم المتقدم..." />
-      </div>
-
       {/* Admin info */}
       <div className="admin-info">
         <div className="admin-avatar">

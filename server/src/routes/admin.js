@@ -191,7 +191,7 @@ router.get(`/applications`, requireAdmin, async (req, res) => {
   const { page, submission, payment, search } = parsed.data;
 
   const offset = (page - 1) * PAGE_SIZE;
-  
+
   const escaped = search.replace(/[\\%_]/g, "\\$&");
 
   //? The WHERE is built from pieces: a piece is added only if the user chose that filter.
@@ -212,7 +212,7 @@ router.get(`/applications`, requireAdmin, async (req, res) => {
     conditions.push(`${PAY_STATUS_SQL} = ?`);
     params.push(payment);
   }
-  
+
   if (search !== "") {
     conditions.push("(ap.full_name LIKE ? OR a.application_number LIKE ?)");
     params.push(`%${escaped}%`, `%${escaped}%`);
